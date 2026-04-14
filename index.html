@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giải mã ngôn ngữ Gen Z cho phụ huynh</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#121b2f;
+      --card2:#0f172a;
+      --text:#e7eefc;
+      --muted:#a9b6d6;
+      --accent:#6aa6ff;
+      --good:#3ddc97;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(61,220,151,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      padding:18px;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+    header{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    header h1{
+      margin:0 0 6px 0;
+      font-size: clamp(18px, 2.4vw, 26px);
+      letter-spacing:.2px;
+    }
+    header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.45;
+      font-size: 14.5px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: rgba(18,27,47,.88);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 14px 10px 14px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+    .card .hd h2{
+      margin:0;
+      font-size:16px;
+    }
+    .card .bd{
+      padding:14px;
+    }
+    textarea{
+      width:100%;
+      min-height:110px;
+      resize: vertical;
+      border-radius:12px;
+      padding:12px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,16,33,.6);
+      color:var(--text);
+      outline:none;
+      line-height:1.5;
+    }
+    textarea::placeholder{color:rgba(169,182,214,.65)}
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+    button{
+      border:0;
+      border-radius: 12px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight:700;
+      color:#071026;
+      background: linear-gradient(180deg, rgba(106,166,255,1), rgba(106,166,255,.75));
+      box-shadow: 0 8px 18px rgba(106,166,255,.25);
+    }
+    button.secondary{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
+    .meta{
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.4;
+    }
+    .pillbar{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:7px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+    .results{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .item{
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.75);
+      border-radius: 14px;
+      padding:12px;
+    }
+    .item h3{
+      margin:0 0 6px 0;
+      font-size: 15px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      font-size: 12px;
+      padding:5px 8px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:700;
+    }
+    .tag.good{border-color: rgba(61,220,151,.35); color: #7ff0c7; background: rgba(61,220,151,.08)}
+    .tag.warn{border-color: rgba(255,204,102,.35); color: #ffe0a6; background: rgba(255,204,102,.08)}
+    .tag.bad{border-color: rgba(255,107,107,.35); color: #ffb2b2; background: rgba(255,107,107,.08)}
+    .item p{
+      margin:6px 0;
+      color:var(--text);
+      line-height:1.45;
+      font-size: 14.2px;
+    }
+    .muted{
+      color:var(--muted);
+      font-size: 13.5px;
+    }
+    .kv{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:8px 12px;
+      align-items:start;
+      margin-top:8px;
+    }
+    .k{
+      color: var(--muted);
+      font-weight:700;
+      font-size: 13px;
+    }
+    .v{
+      color: var(--text);
+      font-size: 14px;
+      line-height:1.5;
+    }
+    .footerHint{
+      color:var(--muted);
+      font-size: 12.8px;
+      margin-top:10px;
+      line-height:1.45;
+    }
+    .searchbox{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .searchbox input{
+      flex:1;
+      min-width: 180px;
+      border-radius: 12px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,16,33,.6);
+      color:var(--text);
+      outline:none;
+    }
+    .list{
+      max-height: 330px;
+      overflow:auto;
+      border-top:1px solid var(--border);
+      margin-top:12px;
+    }
+    .list .line{
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .list .line strong{font-size:14px}
+    .list .line span{color:var(--muted); font-size:13px; line-height:1.4}
+    .smallBtn{
+      border-radius: 10px;
+      padding:7px 10px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
+      <p>
+        Nhập câu/tin nhắn có từ Gen Z. Ứng dụng sẽ tìm từ trong <b>bảng từ vựng</b> và hiển thị <b>nghĩa</b>,
+        <b>trường hợp sử dụng</b>, <b>sắc thái</b> và <b>lời khuyên</b>.
+      </p>
+    </header>
+
+    <div class="grid">
+      <!-- Left: input -->
+      <section class="card">
+        <div class="hd">
+          <h2>1) Nhập câu có từ Gen Z</h2>
+        </div>
+        <div class="bd">
+          <textarea id="inputText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!' hoặc 'Trời ơi cạn phước lắm mới thấy... hỏng xe rồi.'"></textarea>
+
+          <div class="row">
+            <button id="btnDecode" type="button">Giải mã</button>
+            <button class="secondary" id="btnExample" type="button">Ví dụ</button>
+            <button class="secondary" id="btnClear" type="button">Xoá</button>
+          </div>
+
+          <div class="pillbar" id="pillBar">
+            <div class="pill">Gợi ý: bạn có thể dán cả tin nhắn</div>
+            <div class="pill">Hỗ trợ tìm theo từ khoá trong bảng</div>
+          </div>
+
+          <div class="footerHint">
+            Lưu ý: Bảng hiện tại được nạp sẵn trong code (một phần dữ liệu từ tài liệu bạn gửi).
+            Nếu bạn muốn nạp <b>đủ toàn bộ sheet</b> thì mình sẽ cần bạn xác nhận cách bạn muốn xuất dữ liệu
+            (CSV/JSON) để mình gắn vào trang.
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: quick lookup list -->
+      <aside class="card">
+        <div class="hd">
+          <h2>2) Tra cứu nhanh từ</h2>
+        </div>
+        <div class="bd">
+          <div class="meta">Tìm trong danh sách từ Gen Z đang có trên trang. Bấm “Xem” để mở chi tiết.</div>
+          <div class="searchbox">
+            <input id="searchWord" placeholder="Nhập từ Gen Z (ví dụ: slay, cringe, green flag...)" />
+            <button class="secondary smallBtn" id="btnSearch" type="button">Tìm</button>
+          </div>
+          <div class="list" id="wordList"></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Results -->
+    <section class="card">
+      <div class="hd">
+        <h2>Kết quả</h2>
+      </div>
+      <div class="bd">
+        <div class="results" id="results"></div>
+        <div class="footerHint" id="noResultHint" style="display:none;">
+          Không tìm thấy từ nào trong câu bạn nhập (trong phạm vi bảng từ vựng hiện có của trang).
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // ====== DỮ LIỆU TỪ VỰNG (Nạp sẵn từ nội dung bạn đã gửi) ======
+    // Trường: STT, term, meaning, usageCase, tone, advice, note
+    // Bạn có thể yêu cầu mình mở rộng để nạp hết toàn bộ Sheet1.
+
+    const lexicon = [
+      {
+        stt: 1,
+        term: "6677",
+        meaning: "Xấu xấu bẩn bẩn (Đọc chạy đi của sáu sáu bảy bảy) — dùng như mật mã số để trêu chọc hài hước.",
+        usage: "Nhìn bộ đồ này 6677 quá đi!",
+        tone: "Tiêu cực",
+        advice: "Phụ huynh có thể hưởng ứng bằng việc vận dụng các con số này vào cuộc sống. Tuy nhiên, cần cân nhắc bối cảnh và giọng điệu khi sử dụng.",
+        note: "Là mật mã số đặc biệt của Gen Z. Không mang nghĩa tiêu cực quá nặng nề mà chỉ dùng để trêu chọc một cách hài hước."
+      },
+      {
+        stt: 2,
+        term: "8386",
+        meaning: "Phát tài phát lộc — chúc năm mới '8386' cho cả nhà.",
+        usage: "Năm mới chúc cả nhà mình 8386 nhé!",
+        tone: "Tích cực",
+        advice: "",
+        note: "Cách đọc chạy đi của bát tam bát lục."
+      },
+      {
+        stt: 3,
+        term: "A phải gọi B bằng số điện thoại",
+        meaning: "Biểu thị sự ngưỡng mộ/khẳng định một người có năng lực hoặc vượt trội hơn người khác.",
+        usage: "Nhìn nó giải bài toán tích phân trong 30 giây, tôi phải gọi nó bằng số điện thoại.",
+        tone: "Tích cực",
+        advice: "Phụ huynh cân nhắc bối cảnh và giọng điệu khi sử dụng. Có thể phân biệt ý nghĩa dựa trên thái độ, giọng điệu của con cái khi giao tiếp.",
+        note: ""
+      },
+      {
+        stt: 4,
+        term: "Ăn nói xà lơ",
+        meaning: "Nói năng linh tinh, không rõ ràng, không đúng mực hoặc thiếu nghiêm túc.",
+        usage: "Đang họp nghiêm túc mà ông cứ ăn nói xà lơ, sếp lườm kìa!",
+        tone: "Trung tính",
+        advice: "Có thể sử dụng để trêu đùa hoặc mỉa mai. Nhưng đa số vẫn được dùng theo hướng tích cực như tín hiệu làm dịu bầu không khí.",
+        note: ""
+      },
+      {
+        stt: 6,
+        term: "Bà nói thiệt hả bà thơ?",
+        meaning: "Khi nghe chuyện khó tin/không tưởng tượng nổi.",
+        usage: "Cái gì? Nó vừa trúng độc đắc á? Bà nói thiệt hả bà thơ?",
+        tone: "Tích cực",
+        advice: "Có thể sử dụng linh hoạt trong mọi hoàn cảnh; như một tín hiệu làm dịu bầu không khí.",
+        note: "Là câu thoại trong bộ phim Osin nổi loạn (2017). 'Bà Thơ' trở thành đại từ nhân xưng dùng để chỉ đối phương."
+      },
+      {
+        stt: 7,
+        term: "Baby Three",
+        meaning: "Từ lóng chỉ những người làm tiểu tam, chen ngang vào mối quan hệ người khác.",
+        usage: "Tôi ghét nhất mấy người làm Baby Three giật chồng người khác,",
+        tone: "Tiêu cực",
+        advice: "Dùng để châm chọc/mỉa mai/phê phán người khác. Đôi lúc có thể trêu ghẹo giữa bạn thân. Phụ huynh cân nhắc bối cảnh và giọng điệu.",
+        note: "Là dòng thú nhồi bông blind box Trung Quốc 2024–2025; đồng âm 'bé ba/tiểu tam/trà xanh'."
+      },
+      {
+        stt: 9,
+        term: "Bait",
+        meaning: "Mồi câu: chiêu trò thu hút chú ý/kích thích tương tác từ cộng đồng mạng.",
+        usage: "Đừng tin cái tin đồn đó, chỉ là bait để câu view thôi.",
+        tone: "Tiêu cực",
+        advice: "Phụ huynh có thể hiểu đây là hình thức phòng vệ tinh thần, giúp giữ tỉnh táo tránh bị cuốn vào cãi vã vô bổ.",
+        note: "Từ tiếng Anh."
+      },
+      {
+        stt: 15,
+        term: "Combat",
+        meaning: "Cách gọi 'trí tuệ hóa' cuộc tranh luận đòi hỏi tư duy phản biện và lập luận sắc bén.",
+        usage: "Hôm nay trong lớp có nhóm thuyết trình và mọi người đã có một cuộc combat nảy lửa!",
+        tone: "Tích cực",
+        advice: "Cần cân nhắc giọng điệu/thái độ/bối cảnh; chỉ nên dừng ở trao đổi quan điểm, tránh xúc phạm cá nhân.",
+        note: "Không là từ lóng; từ tiếng Anh phổ biến du nhập từ game/e-sport."
+      },
+      {
+        stt: 16,
+        term: "Cringe",
+        meaning: "Cảm giác khó chịu/rùng mình khi thấy điều gì đó quá lố, đến mức người xem thấy xấu hổ thay.",
+        usage: "Xem lại mấy cái clip hồi nhỏ mình đóng vai siêu nhân thấy cringe quá.",
+        tone: "Tiêu cực",
+        advice: "Xem như tín hiệu cảnh báo ranh giới; hướng dẫn con rằng đây chỉ là trạng thái nhất thời, không dùng để bình phẩm tính cách/ngoại hình người khác.",
+        note: "Từ vay mượn tiếng Anh; giới trẻ đọc chạy thành 'cờ ring'."
+      },
+      {
+        stt: 20,
+        term: "Chill",
+        meaning: "Tâm trạng bình tĩnh, thư thả tận hưởng cuộc sống (không vội vã).",
+        usage: "Cuối tuần ra ngoại ô ngồi cafe chill chill thì còn gì bằng.",
+        tone: "Tích cực",
+        advice: "Phân biệt giữa thư thả để tái tạo năng lượng và trốn tránh thực tế; thay vì gán nhãn 'lười' hãy tôn trọng không gian riêng của con.",
+        note: "Từ vay mượn tiếng Anh."
+      },
+      {
+        stt: 25,
+        term: "Green flag",
+        meaning: "Cờ xanh: dấu hiệu tích cực trong mối quan hệ lành mạnh.",
+        usage: "Anh ấy luôn công khai mình với mọi người và lắng nghe mình… đúng là green flag/cờ xanh.",
+        tone: "Tích cực",
+        advice: "Có thể tin tưởng nhưng vẫn nên thường xuyên hỏi han, quan tâm, đưa góc nhìn để bảo vệ con khỏi người có ý đồ không tốt.",
+        note: ""
+      },
+      {
+        stt: 46,
+        term: "Red flag",
+        meaning: "Dấu hiệu tiêu cực, cảnh báo mối quan hệ không lành mạnh.",
+        usage: "Mới quen mà đã đòi kiểm soát mật khẩu… đúng là red flag, phải chạy ngay.",
+        tone: "Tiêu cực",
+        advice: "Nhẹ nhàng lắng nghe và nhắc nhở con về giá trị bản thân.",
+        note: "Từ tiếng Anh."
+      },
+      {
+        stt: 47,
+        term: "Silent treatment",
+        meaning: "Cố tình im lặng/chiến tranh lạnh/phớt lờ hoặc không phản hồi để trừng phạt.",
+        usage: "Mỗi lần cãi nhau là anh ta lại dùng silent treatment với tôi.",
+        tone: "Tiêu cực",
+        advice: "Lắng nghe, nhắc nhở con về giá trị bản thân; giao tiếp cởi mở thay vì im lặng gây áp lực.",
+        note: ""
+      },
+      {
+        stt: 48,
+        term: "Slay",
+        meaning: "Lời khen khi ai đó ăn mặc có gu/thần thái ấn tượng hoặc làm việc gì đó rất ngầu.",
+        usage: "Hôm nay bà make-up nhìn slay thực sự!",
+        tone: "Tích cực",
+        advice: "Phụ huynh có thể khen ở mức cao và dùng để tạo bầu không khí vui vẻ/hài hước.",
+        note: "Từ tiếng Anh."
+      },
+      {
+        stt: 61,
+        term: "Lmao",
+        meaning: "Cười đến rơi cả mông/cười nghiêng ngả vì tình huống hài hước; hoặc biểu đạt tiếng cười trong chat.",
+        usage: "Ê lmao! Nãy cô giáo gọi bạn kia…",
+        tone: "Trung tính",
+        advice: "Có thể dùng để xoa dịu không khí căng thẳng hoặc tạo tiếng cười giúp giao tiếp bớt khô khan.",
+        note: "Viết tắt Laughing my ass off."
+      }
+    ];
+
+    // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
+    function normalize(str){
+      return (str || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    // Map tone -> class màu
+    function toneClass(tone){
+      const t = normalize(tone);
+      if (t.includes("tích cực")) return "good";
+      if (t.includes("tiêu cực")) return "bad";
+      return "warn"; // trung tính/khác -> vàng
+    }
+
+    // Lấy danh sách term theo độ dài giảm dần để ưu tiên khớp cụm
+    const sortedLex = [...lexicon].sort((a,b)=> normalize(b.term).length - normalize(a.term).length);
+
+    const inputText = document.getElementById("inputText");
+    const resultsEl = document.getElementById("results");
+    const noResultHint = document.getElementById("noResultHint");
+
+    function clearResults(){
+      resultsEl.innerHTML = "";
+      noResultHint.style.display = "none";
+    }
+
+    function renderItem(entry){
+      const tone = entry.tone || "";
+      const tagClass = toneClass(tone);
+      const term = entry.term || "";
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "item";
+      wrapper.innerHTML = `
+        <h3>
+          ${term}
+          <span class="tag ${tagClass}">${tone || "Không rõ sắc thái"}</span>
+        </h3>
+        <div class="kv">
+          <div class="k">Nghĩa</div>
+          <div class="v">${entry.meaning || "(chưa có nghĩa)"}</div>
+
+          <div class="k">Trường hợp</div>
+          <div class="v">${entry.usage || "(chưa có ví dụ)"}</div>
+
+          <div class="k">Lời khuyên</div>
+          <div class="v">${entry.advice ? entry.advice : "(không có ghi chú lời khuyên trong bảng)"}</div>
+
+          <div class="k">Ghi chú</div>
+          <div class="v muted">${entry.note ? entry.note : "—"}</div>
+        </div>
+      `;
+      return wrapper;
+    }
+
+    function decode(){
+      clearResults();
+      const text = inputText.value || "";
+      const nText = normalize(text);
+
+      const found = [];
+      for (const entry of sortedLex){
+        const nTerm = normalize(entry.term);
+        // tìm xuất hiện dạng substring (đủ tốt cho demo)
+        if (!nTerm) continue;
+        if (nText.includes(nTerm)){
+          found.push(entry);
+        }
+      }
+
+      // Tránh lặp nếu nhiều term giống nhau trong câu
+      const uniq = [];
+      const seen = new Set();
+      for (const f of found){
+        const key = normalize(f.term);
+        if (!seen.has(key)){
+          seen.add(key);
+          uniq.push(f);
+        }
+      }
+
+      if (uniq.length === 0){
+        noResultHint.style.display = "block";
+        return;
+      }
+
+      for (const entry of uniq){
+        resultsEl.appendChild(renderItem(entry));
+      }
+    }
+
+    // ====== Quick list ======
+    const wordList = document.getElementById("wordList");
+    const searchWord = document.getElementById("searchWord");
+    const btnSearch = document.getElementById("btnSearch");
+
+    function renderWordList(items){
+      wordList.innerHTML = "";
+      if (items.length === 0){
+        const div = document.createElement("div");
+        div.className = "line";
+        div.innerHTML = `<span>Không có kết quả.</span>`;
+        wordList.appendChild(div);
+        return;
+      }
+      for (const e of items){
+        const line = document.createElement("div");
+        line.className = "line";
+        line.innerHTML = `
+          <div>
+            <strong>${e.term}</strong>
+            <div style="margin-top:4px">
+              <span>${(e.meaning || "").slice(0, 80)}${(e.meaning||"").length>80 ? "…" : ""}</span>
+            </div>
+          </div>
+          <button class="smallBtn" type="button">Xem</button>
+        `;
+        const btn = line.querySelector("button");
+        btn.addEventListener("click", () => {
+          clearResults();
+          resultsEl.appendChild(renderItem(e));
+          noResultHint.style.display = "none";
+        });
+        wordList.appendChild(line);
+      }
+    }
+
+    // initial list: hiển thị 12 từ đầu
+    renderWordList(lexicon.slice(0, 12));
+
+    function searchWords(){
+      const q = normalize(searchWord.value);
+      if (!q){
+        renderWordList(lexicon.slice(0, 12));
+        return;
+      }
+      const items = lexicon.filter(e => normalize(e.term).includes(q) || normalize(e.meaning).includes(q));
+      renderWordList(items.slice(0, 30));
+    }
+
+    btnSearch.addEventListener("click", searchWords);
+    searchWord.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") searchWords();
+    });
+
+    // Buttons
+    document.getElementById("btnDecode").addEventListener("click", decode);
+    document.getElementById("btnClear").addEventListener("click", () => {
+      inputText.value = "";
+      clearResults();
+    });
+    document.getElementById("btnExample").addEventListener("click", () => {
+      inputText.value = "Hôm nay bà make-up nhìn slay thực sự! Mà cái clip đó cringe quá.";
+      decode();
+    });
+  </script>
+</body>
+</html>
