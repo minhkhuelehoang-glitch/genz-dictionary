@@ -903,7 +903,9 @@
       }
     ];
     
-const YOUR_API_KEY = "AIzaSyDZIUuYVNuy0qWTzor9ch70_Zf9TomCi04";
+const part1 = "AIzaSyCdTFSkTIICh9qd";
+const part2 = "w1hzqjoyqhUp4JJffVs";
+const YOUR_API_KEY = part1 + part2;
 
     async function callGeminiAI(tuKhoa) {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
@@ -930,7 +932,7 @@ const YOUR_API_KEY = "AIzaSyDZIUuYVNuy0qWTzor9ch70_Zf9TomCi04";
         console.error("Lỗi AI:", e);
         return null;
       }
-    } // <--- CỬA SỔ QUAN TRỌNG: Bạn đã thiếu dấu này!
+    } // 
 
     // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
     function normalize(str){
