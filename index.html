@@ -902,6 +902,35 @@
         note: "Từ Hán Việt"
       }
     ];
+    
+const YOUR_API_KEY = "AIzaSyDZIUuYVNuy0qWTzor9ch70_Zf9TomCi04";
+
+    async function callGeminiAI(tuKhoa) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
+      const requestBody = {
+        contents: [{
+          parts: [{
+            text: `Bạn là một từ điển Gen Z thông minh dành cho phụ huynh. Hãy giải nghĩa từ: "${tuKhoa}". 
+            Trả về duy nhất định dạng JSON (không kèm chữ khác) theo cấu trúc:
+            {"term": "${tuKhoa}", "meaning": "...", "usage": "...", "tone": "Tích cực/Tiêu cực/Trung tính", "advice": "...", "note": "AI giải mã"}`
+          }]
+        }]
+      };
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+        const data = await response.json();
+        const aiText = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
+        return JSON.parse(aiText);
+      } catch (e) {
+        console.error("Lỗi AI:", e);
+        return null;
+      }
+    } // <--- CỬA SỔ QUAN TRỌNG: Bạn đã thiếu dấu này!
 
     // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
     function normalize(str){
@@ -916,12 +945,11 @@
     // Map tone -> class màu
     function toneClass(tone){
       const t = normalize(tone);
-      if (t.includes("tích cực")) return "good";
-      if (t.includes("tiêu cực")) return "bad";
-      return "warn"; // trung tính/khác -> vàng
+      if (t.includes("tich cuc")) return "good";
+      if (t.includes("tieu cuc")) return "bad";
+      return "warn"; 
     }
 
-    // Lấy danh sách term theo độ dài giảm dần để ưu tiên khớp cụm
     const sortedLex = [...lexicon].sort((a,b)=> normalize(b.term).length - normalize(a.term).length);
 
     const inputText = document.getElementById("inputText");
@@ -948,13 +976,10 @@
         <div class="kv">
           <div class="k">Nghĩa</div>
           <div class="v">${entry.meaning || "(chưa có nghĩa)"}</div>
-
           <div class="k">Trường hợp</div>
           <div class="v">${entry.usage || "(chưa có ví dụ)"}</div>
-
           <div class="k">Lời khuyên</div>
-          <div class="v">${entry.advice ? entry.advice : "(không có ghi chú lời khuyên trong bảng)"}</div>
-
+          <div class="v">${entry.advice ? entry.advice : "(không có ghi chú lời khuyên)"}</div>
           <div class="k">Ghi chú</div>
           <div class="v muted">${entry.note ? entry.note : "—"}</div>
         </div>
@@ -962,39 +987,45 @@
       return wrapper;
     }
 
-    function decode(){
+    async function decode() {
       clearResults();
       const text = inputText.value || "";
-      const nText = normalize(text);
+      if (!text.trim()) return;
 
+      const nText = normalize(text);
       const found = [];
-      for (const entry of sortedLex){
+      for (const entry of sortedLex) {
         const nTerm = normalize(entry.term);
-        // tìm xuất hiện dạng substring (đủ tốt cho demo)
         if (!nTerm) continue;
-        if (nText.includes(nTerm)){
+        if (nText.includes(nTerm)) {
           found.push(entry);
         }
       }
 
-      // Tránh lặp nếu nhiều term giống nhau trong câu
       const uniq = [];
       const seen = new Set();
-      for (const f of found){
+      for (const f of found) {
         const key = normalize(f.term);
-        if (!seen.has(key)){
+        if (!seen.has(key)) {
           seen.add(key);
           uniq.push(f);
         }
       }
 
-      if (uniq.length === 0){
-        noResultHint.style.display = "block";
-        return;
-      }
-
-      for (const entry of uniq){
-        resultsEl.appendChild(renderItem(entry));
+      if (uniq.length > 0) {
+        for (const entry of uniq) {
+          resultsEl.appendChild(renderItem(entry));
+        }
+      } else {
+        resultsEl.innerHTML = "<p style='color: #666; font-style: italic; padding: 10px;'>Từ này chưa có trong máy, đang nhờ AI giải mã...</p>";
+        const aiResult = await callGeminiAI(text);
+        
+        clearResults(); 
+        if (aiResult) {
+          resultsEl.appendChild(renderItem(aiResult));
+        } else {
+          noResultHint.style.display = "block";
+        }
       }
     }
 
@@ -1034,7 +1065,6 @@
       }
     }
 
-    // initial list: hiển thị 12 từ đầu
     renderWordList(lexicon.slice(0, 12));
 
     function searchWords(){
@@ -1052,16 +1082,15 @@
       if (ev.key === "Enter") searchWords();
     });
 
-    // Buttons
     document.getElementById("btnDecode").addEventListener("click", decode);
     document.getElementById("btnClear").addEventListener("click", () => {
       inputText.value = "";
       clearResults();
     });
     document.getElementById("btnExample").addEventListener("click", () => {
-      inputText.value = "Hôm nay bà make-up nhìn slay thực sự! Mà cái clip đó cringe quá.";
+      inputText.value = "Hôm nay bà make-up nhìn slay thực sự!";
       decode();
     });
-  </script>
+    </script>
 </body>
 </html>
