@@ -906,32 +906,41 @@
 const part1 = "AIzaSyCdTFSkTIICh9qd";
 const part2 = "w1hzqjoyqhUp4JJffVs";
 const YOUR_API_KEY = part1 + part2;
-    async function callGeminiAI(tuKhoa) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
+async function callGeminiAI(tuKhoa) {
+      // Đảm bảo KHÔNG có khoảng trắng nào bên trong chuỗi URL này
+      const url =`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
+      
       const requestBody = {
         contents: [{
           parts: [{
-            text: `Bạn là một từ điển Gen Z thông minh dành cho phụ huynh. Hãy giải nghĩa từ: "${tuKhoa}". 
-            Trả về duy nhất định dạng JSON (không kèm chữ khác) theo cấu trúc:
-            {"term": "${tuKhoa}", "meaning": "...", "usage": "...", "tone": "Tích cực/Tiêu cực/Trung tính", "advice": "...", "note": "AI giải mã"}`
+            text: `Bạn là một từ điển Gen Z thông minh. Giải nghĩa từ: "${tuKhoa}". Trả về JSON: {"term":"...", "meaning":"...", "usage":"...", "tone":"...", "advice":"...", "note":"AI giải mã"}`
           }]
         }]
       };
+
       try {
         const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestBody)
         });
+
         const data = await response.json();
-        const aiText = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
-        return JSON.parse(aiText);
+
+        // Kiểm tra nếu có dữ liệu trả về mới đọc tiếp
+        if (data && data.candidates && data.candidates[0]) {
+          const aiText = data.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
+          return JSON.parse(aiText);
+        } else {
+          console.error("Dữ liệu AI trả về không đúng cấu trúc:", data);
+          return null;
+        }
+
       } catch (e) {
-        console.error("Lỗi AI:", e);
+        console.error("Lỗi kết nối AI:", e);
         return null;
       }
-    } // 
-
+    }
     // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
     function normalize(str){
       return (str || "")
