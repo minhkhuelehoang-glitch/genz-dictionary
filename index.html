@@ -906,7 +906,6 @@
 const part1 = "AIzaSyCdTFSkTIICh9qd";
 const part2 = "w1hzqjoyqhUp4JJffVs";
 const YOUR_API_KEY = part1 + part2;
-
     async function callGeminiAI(tuKhoa) {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
       const requestBody = {
@@ -918,7 +917,6 @@ const YOUR_API_KEY = part1 + part2;
           }]
         }]
       };
-
       try {
         const response = await fetch(url, {
           method: 'POST',
