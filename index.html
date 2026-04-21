@@ -926,18 +926,10 @@
       </a>
     </div>
 
-    <script>
-    // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
-    function normalize(str){
-      return (str || "")
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // bỏ dấu
-        .replace(/\s+/g, " ")
-        .trim();
+function normalize(str){
+      return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
     }
 
-    // Map tone -> class màu
     function toneClass(tone){
       const t = normalize(tone);
       if (t.includes("tich cuc")) return "good";
@@ -945,147 +937,92 @@
       return "warn"; 
     }
 
+    // Sắp xếp từ dài nhất lên trước để so khớp chính xác
     const sortedLex = [...lexicon].sort((a,b)=> normalize(b.term).length - normalize(a.term).length);
 
-    const inputText = document.getElementById("inputText");
-    const resultsEl = document.getElementById("results");
-    const noResultHint = document.getElementById("noResultHint");
-
-    function clearResults(){
-      resultsEl.innerHTML = "";
-      noResultHint.style.display = "none";
-    }
-
+    // 3. HÀM TẠO GIAO DIỆN KẾT QUẢ
     function renderItem(entry){
-      const tone = entry.tone || "";
-      const tagClass = toneClass(tone);
-      const term = entry.term || "";
-
+      const tagClass = toneClass(entry.tone || "");
       const wrapper = document.createElement("div");
       wrapper.className = "item";
       wrapper.innerHTML = `
-        <h3>
-          ${term}
-          <span class="tag ${tagClass}">${tone || "Không rõ sắc thái"}</span>
-        </h3>
+        <h3>${entry.term} <span class="tag ${tagClass}">${entry.tone || "Trung tính"}</span></h3>
         <div class="kv">
-          <div class="k">Nghĩa</div>
-          <div class="v">${entry.meaning || "(chưa có nghĩa)"}</div>
-          <div class="k">Trường hợp</div>
-          <div class="v">${entry.usage || "(chưa có ví dụ)"}</div>
-          <div class="k">Lời khuyên</div>
-          <div class="v">${entry.advice ? entry.advice : "(không có ghi chú lời khuyên)"}</div>
-          <div class="k">Ghi chú</div>
-          <div class="v muted">${entry.note ? entry.note : "—"}</div>
+          <div class="k">Nghĩa</div><div class="v">${entry.meaning || "-"}</div>
+          <div class="k">Trường hợp</div><div class="v"><em>"${entry.usage || "-"}"</em></div>
+          <div class="k">Lời khuyên</div><div class="v">${entry.advice || "-"}</div>
+          <div class="k">Ghi chú</div><div class="v muted">${entry.note || "—"}</div>
         </div>
       `;
       return wrapper;
     }
 
-    async function decode() {
-      clearResults();
-      const text = inputText.value || "";
-      if (!text.trim()) return;
-
-      const nText = normalize(text);
-      const found = [];
-      for (const entry of sortedLex) {
-        const nTerm = normalize(entry.term);
-        if (!nTerm) continue;
-        if (nText.includes(nTerm)) {
-          found.push(entry);
-        }
-      }
-
-      const uniq = [];
-      const seen = new Set();
-      for (const f of found) {
-        const key = normalize(f.term);
-        if (!seen.has(key)) {
-          seen.add(key);
-          uniq.push(f);
-        }
-      }
-
-      if (uniq.length > 0) {
-        for (const entry of uniq) {
-          resultsEl.appendChild(renderItem(entry));
-        }
-      } else {
-        resultsEl.innerHTML = "<p style='color: #666; font-style: italic; padding: 10px;'>Từ này chưa có trong máy, đang nhờ AI giải mã...</p>";
-        const aiResult = await callGeminiAI(text);
-        
-        clearResults(); 
-        if (aiResult) {
-          resultsEl.appendChild(renderItem(aiResult));
-        } else {
-          noResultHint.style.display = "block";
-        }
-      }
-    }
-
-    // ====== Quick list ======
-    const wordList = document.getElementById("wordList");
-    const searchWord = document.getElementById("searchWord");
-    const btnSearch = document.getElementById("btnSearch");
-
+    // 4. HÀM HIỂN THỊ DANH SÁCH BÊN PHẢI (ẢNH 2)
     function renderWordList(items){
+      const wordList = document.getElementById("wordList");
+      if (!wordList) return;
       wordList.innerHTML = "";
+      
       if (items.length === 0){
-        const div = document.createElement("div");
-        div.className = "line";
-        div.innerHTML = `<span>Không có kết quả.</span>`;
-        wordList.appendChild(div);
+        wordList.innerHTML = `<div class="line"><span>Không tìm thấy.</span></div>`;
         return;
       }
-      for (const e of items){
+
+      items.forEach(e => {
         const line = document.createElement("div");
         line.className = "line";
         line.innerHTML = `
-          <div>
-            <strong>${e.term}</strong>
-            <div style="margin-top:4px">
-              <span>${(e.meaning || "").slice(0, 80)}${(e.meaning||"").length>80 ? "…" : ""}</span>
-            </div>
-          </div>
+          <div><strong>${e.term}</strong><br><span style="font-size:12px;color:#888">${(e.meaning || "").slice(0,50)}...</span></div>
           <button class="smallBtn" type="button">Xem</button>
         `;
-        const btn = line.querySelector("button");
-        btn.addEventListener("click", () => {
-          clearResults();
-          resultsEl.appendChild(renderItem(e));
-          noResultHint.style.display = "none";
-        });
+        line.querySelector("button").onclick = () => {
+          const res = document.getElementById("results");
+          res.innerHTML = "";
+          res.appendChild(renderItem(e));
+          document.getElementById("noResultHint").style.display = "none";
+        };
         wordList.appendChild(line);
-      }
+      });
     }
 
-    renderWordList(lexicon.slice(0, 12));
+    // 5. CÁC SỰ KIỆN NÚT BẤM
+    // Nút Giải mã
+    document.getElementById("btnDecode").onclick = function() {
+      const text = normalize(document.getElementById("inputText").value);
+      const res = document.getElementById("results");
+      res.innerHTML = "";
+      let found = false;
+      
+      sortedLex.forEach(item => {
+        if (text.includes(normalize(item.term))) {
+          found = true;
+          res.appendChild(renderItem(item));
+        }
+      });
+      document.getElementById("noResultHint").style.display = found ? "none" : "block";
+    };
 
-    function searchWords(){
-      const q = normalize(searchWord.value);
-      if (!q){
-        renderWordList(lexicon.slice(0, 12));
-        return;
-      }
-      const items = lexicon.filter(e => normalize(e.term).includes(q) || normalize(e.meaning).includes(q));
-      renderWordList(items.slice(0, 30));
-    }
+    // Nút Tìm kiếm nhanh trong ô bên phải
+    document.getElementById("btnSearch").onclick = function() {
+      const q = normalize(document.getElementById("searchWord").value);
+      const filtered = lexicon.filter(e => normalize(e.term).includes(q) || normalize(e.meaning).includes(q));
+      renderWordList(filtered);
+    };
 
-    btnSearch.addEventListener("click", searchWords);
-    searchWord.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter") searchWords();
-    });
+    // Nút Ví dụ & Xóa
+    document.getElementById("btnClear").onclick = () => {
+      document.getElementById("inputText").value = "";
+      document.getElementById("results").innerHTML = "";
+    };
+    document.getElementById("btnExample").onclick = () => {
+      document.getElementById("inputText").value = "Hôm nay bà make-up nhìn slay thực sự!";
+      document.getElementById("btnDecode").click();
+    };
 
-    document.getElementById("btnDecode").addEventListener("click", decode);
-    document.getElementById("btnClear").addEventListener("click", () => {
-      inputText.value = "";
-      clearResults();
-    });
-    document.getElementById("btnExample").addEventListener("click", () => {
-      inputText.value = "Hôm nay bà make-up nhìn slay thực sự!";
-      decode();
-    });
-    </script>
+    // QUAN TRỌNG: Mở trang là hiện danh sách ngay
+    window.onload = () => {
+      renderWordList(lexicon.slice(0, 65);
+    };
+  </script>
 </body>
 </html>
