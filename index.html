@@ -269,54 +269,61 @@
   <div class="wrap">
     <header>
       <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
-      <p>Ứng dụng giúp phụ huynh hiểu rõ hơn về các từ ngữ mới của giới trẻ.</p>
+      <p>Ứng dụng giúp phụ huynh hiểu rõ hơn về các từ ngữ mới của giới trẻ thông qua bảng từ vựng và AI.</p>
     </header>
 
     <div class="grid">
+      
       <section class="card">
-        <div class="hd"><h2>1) Nhập câu có từ Gen Z</h2></div>
+        <div class="hd">
+          <h2>1) Nhập câu có từ Gen Z</h2>
+        </div>
         <div class="bd">
-          <textarea id="inputText" placeholder="Ví dụ: 'Hôm nay bà nhìn slay quá!'"></textarea>
+          <textarea id="inputText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!'"></textarea>
+
           <div class="row">
-            <button id="btnDecode">Giải mã</button>
-            <button id="btnExample" class="secondary">Ví dụ</button>
-            <button id="btnClear" class="secondary">Xoá</button>
-          </div>
-          
-          <div style="margin-top: 25px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px;">
-            <p style="font-size: 0.85em; color: var(--muted); margin-bottom: 10px;">Bạn muốn hỏi thêm về ngôn ngữ trẻ em?</p>
-            <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">Mở Google Gemini</a>
+            <button id="btnDecode" type="button">Giải mã</button>
+            <button class="secondary" id="btnExample" type="button">Ví dụ</button>
+            <button class="secondary" id="btnClear" type="button">Xoá</button>
           </div>
 
-          <div class="pillbar">
-            <div class="pill">Gợi ý: Dán cả tin nhắn</div>
-            <div class="pill">Tra cứu bảng từ vựng</div>
+          <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; margin-bottom: 20px;">
+            <p style="font-size: 0.9em; color: var(--muted); margin-bottom: 12px; font-style: italic;">
+              Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
+            </p>
+            <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
+              Mở trực tiếp Google Gemini
+            </a>
+          </div>
+
+          <div class="pillbar" id="pillBar">
+            <div class="pill">Gợi ý: bạn có thể dán cả tin nhắn</div>
+            <div class="pill">Hỗ trợ tìm theo từ khoá trong bảng</div>
           </div>
         </div>
-      </section>
-
-      <aside class="card">
-        <div class="hd"><h2>2) Tra cứu nhanh</h2></div>
+      </section> <aside class="card">
+        <div class="hd">
+          <h2>2) Tra cứu nhanh từ</h2>
+        </div>
         <div class="bd">
+          <div class="meta">Tìm trong danh sách từ đang có. Bấm “Xem” để mở chi tiết.</div>
           <div class="searchbox">
-            <input id="searchWord" placeholder="Tìm từ..." />
-            <button id="btnSearch" class="secondary">Tìm</button>
+            <input id="searchWord" placeholder="Nhập từ cần tìm..." />
+            <button class="secondary smallBtn" id="btnSearch" type="button">Tìm</button>
           </div>
           <div class="list" id="wordList"></div>
         </div>
-      </aside>
-    </div>
-
-    <section class="card" style="margin-top: 20px;">
-      <div class="hd"><h2>Kết quả giải mã</h2></div>
+      </aside> </div> <section class="card" style="margin-top: 20px;">
+      <div class="hd">
+        <h2>Kết quả giải mã</h2>
+      </div>
       <div class="bd">
         <div id="results" class="results"></div>
-        <div id="noResultHint" style="display:none; text-align:center; color:var(--muted); padding:20px;">
-          Đang nhờ AI hỗ trợ giải mã câu này...
+        <div id="noResultHint" style="display:none; color: var(--muted); font-style: italic; padding: 10px; text-align: center;">
+          Không tìm thấy từ trong từ điển, đang nhờ AI hỗ trợ...
         </div>
       </div>
     </section>
-  </div>
     // ====== DỮ LIỆU TỪ VỰNG (Nạp sẵn từ nội dung bạn đã gửi) ======
     // Trường: STT, term, meaning, usageCase, tone, advice, note
     // Bạn có thể yêu cầu mình mở rộng để nạp hết toàn bộ Sheet1.
