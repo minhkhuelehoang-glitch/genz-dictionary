@@ -1,197 +1,180 @@
-Hiểu ý bạn rồi, mình "chiều" bạn luôn! Bạn muốn giữ phong cách code kiểu ban đầu—mọi thứ dàn trải, trực quan, dễ đọc theo kiểu "cầm tay chỉ việc" và quan trọng là giữ đúng cái Aesthetic (thẩm mỹ) ban đầu của bạn.
-
-Đây là bản Full Option, không gộp hàm lung tung, giữ nguyên cấu trúc khung lớn, chia cột rõ ràng và đầy đủ 65 từ (mình để sẵn khung dữ liệu dài cho bạn dán tiếp vào).
-
-HTML
 <!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Giải mã ngôn ngữ Gen Z cho phụ huynh</title>
+  <title>Giải mã ngôn ngữ Gen Z</title>
   <style>
-    :root{
-      --bg:#0b1220;
-      --card:#121b2f;
-      --text:#e7eefc;
-      --muted:#a9b6d6;
-      --accent:#6aa6ff;
-      --good:#3ddc97;
-      --warn:#ffcc66;
-      --bad:#ff6b6b;
-      --border: rgba(255,255,255,.08);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
+    :root {
+      --bg-dark: #0b1220;
+      --card-bg: rgba(18, 27, 47, 0.75);
+      --accent: #4285f4;
+      --gemini-grad: linear-gradient(45deg, #4285f4, #9b72cb, #d96570);
+      --text-white: #ffffff;
+      --text-dim: #a9b6d6;
+      --border: rgba(255, 255, 255, 0.08);
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.25), transparent 60%), var(--bg);
-      color:var(--text);
-      padding:18px;
+
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 10%, #1a2a4a 0%, #0b1220 100%);
+      color: var(--text-white);
+      padding: 25px;
       line-height: 1.5;
     }
-    .wrap{ max-width:1100px; margin:0 auto; }
-    header{
-      padding:25px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    header h1 { margin:0; font-size: 28px; letter-spacing: 0.5px; }
-    header p { color: var(--muted); margin-top: 8px; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:20px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    .container { max-width: 1150px; margin: 0 auto; }
 
-    .card{
-      background: rgba(18,27,47,.88);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
-    }
-    .hd{
-      padding:16px;
-      border-bottom:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-    }
-    .hd h2{ margin:0; font-size: 18px; color: var(--accent); }
-    .bd{ padding:20px; }
-
-    textarea{
-      width:100%;
-      min-height:140px;
-      border-radius:12px;
-      padding:15px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(10,16,33,.6);
-      color:var(--text);
-      font-size: 16px;
-      outline:none;
-    }
-    .row{ display:flex; gap:12px; margin-top:15px; flex-wrap: wrap; }
-    
-    button{
-      border:0; border-radius: 12px; padding:12px 20px;
-      cursor:pointer; font-weight:700; font-size: 15px;
-      background: linear-gradient(180deg, #6aa6ff, #4a90e2);
-      color:#071026;
-    }
-    button.secondary{
-      background: rgba(255,255,255,.06);
-      color: var(--text);
+    header {
+      background: linear-gradient(90deg, rgba(66, 133, 244, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
       border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 25px;
+      backdrop-filter: blur(10px);
     }
 
-    .list-container {
-      max-height: 450px;
-      overflow-y: auto;
-      border-top: 1px solid var(--border);
-      margin-top: 15px;
+    header h1 { 
+      margin: 0; 
+      font-size: 32px; 
+      font-weight: 700; 
+      letter-spacing: -0.5px;
     }
-    .word-item-line {
-      padding: 12px;
+
+    header p { 
+      margin: 12px 0 0; 
+      color: var(--text-dim); 
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    textarea {
+      width: 100%;
+      height: 130px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: #fff;
+      padding: 15px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+
+    button {
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    .btn-main { background: var(--accent); color: #fff; }
+    .btn-sub { background: #2a354b; color: #fff; }
+
+    /* NÚT GEMINI SLAY */
+    .btn-gemini {
+      display: inline-block;
+      padding: 14px 30px;
+      background: var(--gemini-grad);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-top: 25px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-gemini:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(155, 114, 203, 0.4);
+    }
+
+    .list-scroll {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .row-item {
+      padding: 15px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .word-item-line:hover { background: rgba(255,255,255,0.03); }
 
     .result-box {
-      border: 1px solid var(--border);
-      background: rgba(15,23,42,0.6);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 15px;
-    }
-    .tag {
-      font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; margin-left: 10px;
-    }
-    .good { background: var(--good); color: #000; }
-    .warn { background: var(--warn); color: #000; }
-    .bad { background: var(--bad); color: #fff; }
-
-    .kv-grid {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .k-label { color: var(--muted); font-weight: bold; font-size: 13px; }
-    .v-content { font-size: 15px; }
-
-    .gemini-footer {
-      text-align: center;
-      padding: 25px;
-      border-top: 1px solid var(--border);
       margin-top: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
     }
-    .btn-gemini {
-      display: inline-block;
-      padding: 14px 28px;
-      background: linear-gradient(45deg, #4285f4, #9b72cb);
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-    }
+
+    .res-content { text-align: left; margin-bottom: 20px; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #323d4e; border-radius: 10px; }
   </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="container">
   <header>
-    <h1>Giải mã ngôn ngữ Gen Z</h1>
-    <p>Giúp phụ huynh "phá đảo" thế giới ngôn từ của con cái</p>
+    <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
+    <p>Ứng dụng giúp phụ huynh "phá đảo" thế giới ngôn từ của giới trẻ.</p>
   </header>
 
   <div class="grid">
-    <div class="left-col">
-      <section class="card">
-        <div class="hd"><h2>Nhập nội dung cần giải mã</h2></div>
-        <div class="bd">
-          <textarea id="inputText" placeholder="Dán tin nhắn hoặc nhập câu tại đây..."></textarea>
-          <div class="row">
-            <button id="btnDecode">GIẢI MÃ NGAY</button>
-            <button id="btnExample" class="secondary">CÂU VÍ DỤ</button>
-            <button id="btnClear" class="secondary">XOÁ HẾT</button>
-          </div>
-        </div>
-      </section>
+    <section class="card">
+      <h2 style="font-size:16px; color:var(--text-dim); margin-bottom:15px;">1) Nhập câu có từ Gen Z</h2>
+      <textarea id="inpText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!'"></textarea>
+      <div class="btn-row">
+        <button class="btn-main" onclick="startDecode()">Giải mã</button>
+        <button class="btn-sub" onclick="setExample()">Ví dụ</button>
+        <button class="btn-sub" onclick="clearAll()">Xoá</button>
+      </div>
+    </section>
 
-      <section class="card">
-        <div class="hd"><h2>Kết quả phân tích chi tiết</h2></div>
-        <div class="bd" id="resultsArea">
-          <p style="color:var(--muted); text-align:center;">Chưa có dữ liệu để hiển thị.</p>
-        </div>
-      </section>
-    </div>
-
-    <div class="right-col">
-      <section class="card">
-        <div class="hd"><h2>Bảng tra cứu nhanh</h2></div>
-        <div class="bd">
-          <input type="text" id="searchInput" placeholder="Tìm từ hoặc nghĩa..." style="width:100%; padding:12px; border-radius:10px; background:#0a1021; border:1px solid var(--border); color:#fff;">
-          <div class="list-container" id="wordList">
-            </div>
-        </div>
-      </section>
-    </div>
+    <aside class="card">
+      <h2 style="font-size:16px; color:var(--text-dim); margin-bottom:15px;">2) Tra cứu nhanh từ</h2>
+      <input type="text" id="inpSearch" style="width:100%; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; padding:10px; color:#fff; margin-bottom:15px;" placeholder="Tìm kiếm từ...">
+      <div class="list-scroll" id="listWords"></div>
+    </aside>
   </div>
 
-  <footer class="gemini-footer">
-    <p style="margin-bottom:15px; font-style:italic; color:var(--muted);">Bạn muốn trò chuyện trực tiếp với AI?</p>
-    <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">MỞ GOOGLE GEMINI</a>
-  </footer>
+  <div class="result-box">
+    <div id="resOutput" class="res-content">
+      <p style="color: var(--text-dim); text-align:center;">Vui lòng nhập văn bản để bắt đầu giải mã...</p>
+    </div>
+    
+    <div style="border-top: 1px solid var(--border); padding-top: 10px;">
+      <p style="font-size: 0.9em; color: var(--text-dim); font-style: italic; margin-bottom: 10px;">
+        Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
+      </p>
+      <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
+        Mở trực tiếp Google Gemini
+      </a>
+    </div>
+  </div>
 </div>
     <script>
     const lexicon = [
