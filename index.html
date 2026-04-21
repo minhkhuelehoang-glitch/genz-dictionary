@@ -313,21 +313,23 @@
           </div>
           <div class="list" id="wordList"></div>
         </div>
-      </aside> </div> <section class="card" style="margin-top: 20px;">
-      <div class="hd">
-        <h2>Kết quả giải mã</h2>
+</section> </div> <section class="card" style="margin-top: 20px;">
+    <div class="hd">
+      <h2>Kết quả giải mã</h2>
+    </div>
+    <div class="bd">
+      <div id="results" class="results"></div>
+      <div id="noResultHint" style="display:none; text-align: center; padding: 20px;">
+        Đang tìm kiếm...
       </div>
-      <div class="bd">
-        <div id="results" class="results"></div>
-        <div id="noResultHint" style="display:none; color: var(--muted); font-style: italic; padding: 10px; text-align: center;">
-          Không tìm thấy từ trong từ điển, đang nhờ AI hỗ trợ...
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
+</div>
+    <script>
     // ====== DỮ LIỆU TỪ VỰNG (Nạp sẵn từ nội dung bạn đã gửi) ======
     // Trường: STT, term, meaning, usageCase, tone, advice, note
     // Bạn có thể yêu cầu mình mở rộng để nạp hết toàn bộ Sheet1.
-<script>
+    
     const lexicon = [
       {
         stt: 1,
