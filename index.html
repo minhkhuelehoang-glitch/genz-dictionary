@@ -243,6 +243,26 @@
       cursor:pointer;
       white-space:nowrap;
     }
+    .btn-gemini {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #4285f4, #9b72cb);
+      color: white !important;
+      text-decoration: none !important;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9em;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-gemini:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+      filter: brightness(1.1);
+    }
   </style>
 </head>
 <body>
@@ -269,6 +289,15 @@
             <button class="secondary" id="btnExample" type="button">Ví dụ</button>
             <button class="secondary" id="btnClear" type="button">Xoá</button>
           </div>
+          <div id="results"></div> <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; margin-bottom: 20px;">
+  <p style="font-size: 0.9em; color: var(--muted); margin-bottom: 12px; font-style: italic;">
+    Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
+  </p>
+  <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
+    Mở trực tiếp Google Gemini
+  </a>
+</div>
+<div id="noResultHint" style="display:none;">...</div>
 
           <div class="pillbar" id="pillBar">
             <div class="pill">Gợi ý: bạn có thể dán cả tin nhắn</div>
@@ -902,6 +931,16 @@
         note: "Từ Hán Việt"
       }
     ];
+    <div style="margin-top: 30px; text-align: center; border-top: 1px solid #444; padding-top: 20px; margin-bottom: 20px;">
+      <p style="font-size: 0.9em; color: #bbb; margin-bottom: 12px; font-style: italic;">
+        Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
+      </p>
+      <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
+        Mở trực tiếp Google Gemini
+      </a>
+    </div>
+
+    <script>
     // Chuẩn hoá so khớp: bỏ dấu tiếng Việt, lower-case
     function normalize(str){
       return (str || "")
