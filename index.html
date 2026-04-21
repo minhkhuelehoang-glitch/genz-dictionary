@@ -917,7 +917,7 @@
         note: "Từ Hán Việt"
       }
     ];
-    <div style="margin-top: 30px; text-align: center; border-top: 1px solid #444; padding-top: 20px; margin-bottom: 20px;">
+<div style="margin-top: 30px; text-align: center; border-top: 1px solid #444; padding-top: 20px; margin-bottom: 20px;">
       <p style="font-size: 0.9em; color: #bbb; margin-bottom: 12px; font-style: italic;">
         Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
       </p>
@@ -926,7 +926,11 @@
       </a>
     </div>
 
-function normalize(str){
+    <script>
+    // Ghi chú: Bạn phải đảm bảo ĐÃ CÓ đoạn 'const lexicon = [...]' ở ngay phía trên này trong file nhé.
+    // Nếu chưa có đoạn danh sách 63 từ đó, web sẽ không hiện gì cả.
+
+    function normalize(str){
       return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
     }
 
@@ -986,7 +990,6 @@ function normalize(str){
     }
 
     // 5. CÁC SỰ KIỆN NÚT BẤM
-    // Nút Giải mã
     document.getElementById("btnDecode").onclick = function() {
       const text = normalize(document.getElementById("inputText").value);
       const res = document.getElementById("results");
@@ -1002,27 +1005,26 @@ function normalize(str){
       document.getElementById("noResultHint").style.display = found ? "none" : "block";
     };
 
-    // Nút Tìm kiếm nhanh trong ô bên phải
     document.getElementById("btnSearch").onclick = function() {
       const q = normalize(document.getElementById("searchWord").value);
       const filtered = lexicon.filter(e => normalize(e.term).includes(q) || normalize(e.meaning).includes(q));
       renderWordList(filtered);
     };
 
-    // Nút Ví dụ & Xóa
     document.getElementById("btnClear").onclick = () => {
       document.getElementById("inputText").value = "";
       document.getElementById("results").innerHTML = "";
     };
+    
     document.getElementById("btnExample").onclick = () => {
       document.getElementById("inputText").value = "Hôm nay bà make-up nhìn slay thực sự!";
       document.getElementById("btnDecode").click();
     };
 
-    // QUAN TRỌNG: Mở trang là hiện danh sách ngay
+    // QUAN TRỌNG: LỖI NẰM Ở ĐÂY - MÌNH ĐÃ SỬA DẤU ) THIẾU
     window.onload = () => {
-      renderWordList(lexicon.slice(0, 65);
+      renderWordList(lexicon.slice(0, 65)); // Thêm dấu ngoặc ) vào đây
     };
-  </script>
+    </script>
 </body>
 </html>
