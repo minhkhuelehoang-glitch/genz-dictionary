@@ -1,181 +1,322 @@
-<!doctype html>
+!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Giải mã ngôn ngữ Gen Z</title>
+  <title>Giải mã ngôn ngữ Gen Z cho phụ huynh</title>
   <style>
-    :root {
-      --bg-dark: #0b1220;
-      --card-bg: rgba(18, 27, 47, 0.75);
-      --accent: #4285f4;
-      --gemini-grad: linear-gradient(45deg, #4285f4, #9b72cb, #d96570);
-      --text-white: #ffffff;
-      --text-dim: #a9b6d6;
-      --border: rgba(255, 255, 255, 0.08);
+    :root{
+      --bg:#0b1220;
+      --card:#121b2f;
+      --card2:#0f172a;
+      --text:#e7eefc;
+      --muted:#a9b6d6;
+      --accent:#6aa6ff;
+      --good:#3ddc97;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
     }
-
-    body {
-      margin: 0;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      background: radial-gradient(circle at 20% 10%, #1a2a4a 0%, #0b1220 100%);
-      color: var(--text-white);
-      padding: 25px;
-      line-height: 1.5;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(61,220,151,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      padding:18px;
     }
-
-    .container { max-width: 1150px; margin: 0 auto; }
-
-    header {
-      background: linear-gradient(90deg, rgba(66, 133, 244, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 25px;
-      backdrop-filter: blur(10px);
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
     }
-
-    header h1 { 
-      margin: 0; 
-      font-size: 32px; 
-      font-weight: 700; 
-      letter-spacing: -0.5px;
+    header{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
-
-    header p { 
-      margin: 12px 0 0; 
-      color: var(--text-dim); 
-      font-size: 15px;
+    header h1{
+      margin:0 0 6px 0;
+      font-size: clamp(18px, 2.4vw, 26px);
+      letter-spacing:.2px;
     }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.45;
+      font-size: 14.5px;
     }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
     }
-
-    textarea {
-      width: 100%;
-      height: 130px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border);
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: rgba(18,27,47,.88);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 14px 10px 14px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+    .card .hd h2{
+      margin:0;
+      font-size:16px;
+    }
+    .card .bd{
+      padding:14px;
+    }
+    textarea{
+      width:100%;
+      min-height:110px;
+      resize: vertical;
+      border-radius:12px;
+      padding:12px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,16,33,.6);
+      color:var(--text);
+      outline:none;
+      line-height:1.5;
+    }
+    textarea::placeholder{color:rgba(169,182,214,.65)}
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+    button{
+      border:0;
       border-radius: 12px;
-      color: #fff;
-      padding: 15px;
-      font-size: 16px;
-      outline: none;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight:700;
+      color:#071026;
+      background: linear-gradient(180deg, rgba(106,166,255,1), rgba(106,166,255,.75));
+      box-shadow: 0 8px 18px rgba(106,166,255,.25);
     }
-
-    .btn-row { display: flex; gap: 10px; margin-top: 15px; }
-
-    button {
-      padding: 10px 24px;
-      border-radius: 30px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.3s;
+    button.secondary{
+      color:var(--text);
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      box-shadow:none;
     }
-    .btn-main { background: var(--accent); color: #fff; }
-    .btn-sub { background: #2a354b; color: #fff; }
-
-    /* NÚT GEMINI SLAY */
-    .btn-gemini {
-      display: inline-block;
-      padding: 14px 30px;
-      background: var(--gemini-grad);
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: 700;
+    .meta{
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.4;
+    }
+    .pillbar{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      padding:7px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+    .results{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .item{
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.75);
+      border-radius: 14px;
+      padding:12px;
+    }
+    .item h3{
+      margin:0 0 6px 0;
       font-size: 15px;
-      margin-top: 25px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border: 1px solid rgba(255,255,255,0.2);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .btn-gemini:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(155, 114, 203, 0.4);
+    .tag{
+      font-size: 12px;
+      padding:5px 8px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:700;
     }
-
-    .list-scroll {
-      max-height: 400px;
-      overflow-y: auto;
+    .tag.good{border-color: rgba(61,220,151,.35); color: #7ff0c7; background: rgba(61,220,151,.08)}
+    .tag.warn{border-color: rgba(255,204,102,.35); color: #ffe0a6; background: rgba(255,204,102,.08)}
+    .tag.bad{border-color: rgba(255,107,107,.35); color: #ffb2b2; background: rgba(255,107,107,.08)}
+    .item p{
+      margin:6px 0;
+      color:var(--text);
+      line-height:1.45;
+      font-size: 14.2px;
     }
-
-    .row-item {
-      padding: 15px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .muted{
+      color:var(--muted);
+      font-size: 13.5px;
     }
-
-    .result-box {
-      margin-top: 20px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 25px;
-      text-align: center;
+    .kv{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:8px 12px;
+      align-items:start;
+      margin-top:8px;
     }
-
-    .res-content { text-align: left; margin-bottom: 20px; }
-
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #323d4e; border-radius: 10px; }
+    .k{
+      color: var(--muted);
+      font-weight:700;
+      font-size: 13px;
+    }
+    .v{
+      color: var(--text);
+      font-size: 14px;
+      line-height:1.5;
+    }
+    .footerHint{
+      color:var(--muted);
+      font-size: 12.8px;
+      margin-top:10px;
+      line-height:1.45;
+    }
+    .searchbox{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .searchbox input{
+      flex:1;
+      min-width: 180px;
+      border-radius: 12px;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,16,33,.6);
+      color:var(--text);
+      outline:none;
+    }
+    .list{
+      max-height: 330px;
+      overflow:auto;
+      border-top:1px solid var(--border);
+      margin-top:12px;
+    }
+    .list .line{
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .list .line strong{font-size:14px}
+    .list .line span{color:var(--muted); font-size:13px; line-height:1.4}
+    .smallBtn{
+      border-radius: 10px;
+      padding:7px 10px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
+      <p>
+        Nhập câu/tin nhắn có từ Gen Z. Ứng dụng sẽ tìm từ trong <b>bảng từ vựng</b> và hiển thị <b>nghĩa</b>,
+        <b>trường hợp sử dụng</b>, <b>sắc thái</b> và <b>lời khuyên</b>.
+      </p>
+    </header>
 
-<div class="container">
-  <header>
-    <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
-    <p>Ứng dụng giúp phụ huynh "phá đảo" thế giới ngôn từ của giới trẻ.</p>
-  </header>
+    <div class="grid">
+      <!-- Left: input -->
+      <section class="card">
+        <div class="hd">
+          <h2>1) Nhập câu có từ Gen Z</h2>
+        </div>
+        <div class="bd">
+          <textarea id="inputText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!' hoặc 'Trời ơi cạn phước lắm mới thấy... hỏng xe rồi.'"></textarea>
 
-  <div class="grid">
+          <div class="row">
+            <button id="btnDecode" type="button">Giải mã</button>
+            <button class="secondary" id="btnExample" type="button">Ví dụ</button>
+            <button class="secondary" id="btnClear" type="button">Xoá</button>
+          </div>
+
+          <div class="pillbar" id="pillBar">
+            <div class="pill">Gợi ý: bạn có thể dán cả tin nhắn</div>
+            <div class="pill">Hỗ trợ tìm theo từ khoá trong bảng</div>
+          </div>
+
+          <div class="footerHint">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: quick lookup list -->
+      <aside class="card">
+        <div class="hd">
+          <h2>2) Tra cứu nhanh từ</h2>
+        </div>
+        <div class="bd">
+          <div class="meta">Tìm trong danh sách từ Gen Z đang có trên trang. Bấm “Xem” để mở chi tiết.</div>
+          <div class="searchbox">
+            <input id="searchWord" placeholder="Nhập từ Gen Z (ví dụ: slay, cringe, green flag...)" />
+            <button class="secondary smallBtn" id="btnSearch" type="button">Tìm</button>
+          </div>
+          <div class="list" id="wordList"></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Results -->
     <section class="card">
-      <h2 style="font-size:16px; color:var(--text-dim); margin-bottom:15px;">1) Nhập câu có từ Gen Z</h2>
-      <textarea id="inpText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!'"></textarea>
-      <div class="btn-row">
-        <button class="btn-main" onclick="startDecode()">Giải mã</button>
-        <button class="btn-sub" onclick="setExample()">Ví dụ</button>
-        <button class="btn-sub" onclick="clearAll()">Xoá</button>
+      <div class="hd">
+        <h2>Kết quả</h2>
+      </div>
+      <div class="bd">
+        <div class="results" id="results"></div>
+        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center;">
+  <p style="font-size: 13px; color: var(--muted); margin-bottom: 15px; font-style: italic;">
+    Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
+  </p>
+  <a href="https://gemini.google.com/" target="_blank" style="display: inline-block; padding: 12px 30px; background: linear-gradient(45deg, #4285f4, #9b72cb, #d96570); color: white; text-decoration: none; border-radius: 30px; font-weight: 700; font-size: 14px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+    Mở trực tiếp Google Gemini
+  </a>
+</div>
+        <div class="footerHint" id="noResultHint" style="display:none;">
+          Không tìm thấy từ nào trong câu bạn nhập (trong phạm vi bảng từ vựng hiện có của trang).
+        </div>
       </div>
     </section>
-
-    <aside class="card">
-      <h2 style="font-size:16px; color:var(--text-dim); margin-bottom:15px;">2) Tra cứu nhanh từ</h2>
-      <input type="text" id="inpSearch" style="width:100%; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; padding:10px; color:#fff; margin-bottom:15px;" placeholder="Tìm kiếm từ...">
-      <div class="list-scroll" id="listWords"></div>
-    </aside>
   </div>
-
-  <div class="result-box">
-    <div id="resOutput" class="res-content">
-      <p style="color: var(--text-dim); text-align:center;">Vui lòng nhập văn bản để bắt đầu giải mã...</p>
-    </div>
-    
-    <div style="border-top: 1px solid var(--border); padding-top: 10px;">
-      <p style="font-size: 0.9em; color: var(--text-dim); font-style: italic; margin-bottom: 10px;">
-        Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
-      </p>
-      <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
-        Mở trực tiếp Google Gemini
-      </a>
-    </div>
-  </div>
-</div>
     <script>
     const lexicon = [
       {
