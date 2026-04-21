@@ -8,7 +8,6 @@
     :root{
       --bg:#0b1220;
       --card:#121b2f;
-      --card2:#0f172a;
       --text:#e7eefc;
       --muted:#a9b6d6;
       --accent:#6aa6ff;
@@ -22,10 +21,8 @@
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(106,166,255,.25), transparent 60%),
-                  radial-gradient(900px 500px at 90% 0%, rgba(61,220,151,.18), transparent 55%),
-                  var(--bg);
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color:var(--text);
       padding:18px;
     }
@@ -38,22 +35,13 @@
     }
     header{
       padding:18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      background: rgba(255,255,255,.03);
       border:1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      margin-bottom: 10px;
     }
-    header h1{
-      margin:0 0 6px 0;
-      font-size: clamp(18px, 2.4vw, 26px);
-      letter-spacing:.2px;
-    }
-    header p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.45;
-      font-size: 14.5px;
-    }
+    header h1{ margin:0; font-size: 24px; color: var(--accent); }
+    header p{ margin:5px 0 0 0; color: var(--muted); }
     .grid{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -66,270 +54,102 @@
       background: rgba(18,27,47,.88);
       border:1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
       overflow:hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .card .hd{
-      padding:14px 14px 10px 14px;
-      border-bottom:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-    }
-    .card .hd h2{
-      margin:0;
-      font-size:16px;
-    }
-    .card .bd{
+    .hd{
       padding:14px;
+      border-bottom:1px solid var(--border);
+      background: rgba(255,255,255,.02);
     }
+    .hd h2{ margin:0; font-size: 16px; }
+    .bd{ padding:14px; flex-grow: 1; }
     textarea{
       width:100%;
-      min-height:110px;
-      resize: vertical;
+      min-height:120px;
       border-radius:12px;
-      padding:12px 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(10,16,33,.6);
-      color:var(--text);
-      outline:none;
-      line-height:1.5;
-    }
-    textarea::placeholder{color:rgba(169,182,214,.65)}
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top:10px;
-    }
-    button{
-      border:0;
-      border-radius: 12px;
-      padding:10px 14px;
-      cursor:pointer;
-      font-weight:700;
-      color:#071026;
-      background: linear-gradient(180deg, rgba(106,166,255,1), rgba(106,166,255,.75));
-      box-shadow: 0 8px 18px rgba(106,166,255,.25);
-    }
-    button.secondary{
-      color:var(--text);
-      background: rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      box-shadow:none;
-    }
-    .meta{
-      color:var(--muted);
-      font-size: 13px;
-      line-height:1.4;
-    }
-    .pillbar{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .pill{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      padding:7px 10px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 13px;
-      user-select:none;
-    }
-    .results{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-    .item{
-      border:1px solid var(--border);
-      background: rgba(15,23,42,.75);
-      border-radius: 14px;
       padding:12px;
-    }
-    .item h3{
-      margin:0 0 6px 0;
-      font-size: 15px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .tag{
-      font-size: 12px;
-      padding:5px 8px;
-      border-radius: 999px;
       border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--muted);
-      font-weight:700;
-    }
-    .tag.good{border-color: rgba(61,220,151,.35); color: #7ff0c7; background: rgba(61,220,151,.08)}
-    .tag.warn{border-color: rgba(255,204,102,.35); color: #ffe0a6; background: rgba(255,204,102,.08)}
-    .tag.bad{border-color: rgba(255,107,107,.35); color: #ffb2b2; background: rgba(255,107,107,.08)}
-    .item p{
-      margin:6px 0;
-      color:var(--text);
-      line-height:1.45;
-      font-size: 14.2px;
-    }
-    .muted{
-      color:var(--muted);
-      font-size: 13.5px;
-    }
-    .kv{
-      display:grid;
-      grid-template-columns: 120px 1fr;
-      gap:8px 12px;
-      align-items:start;
-      margin-top:8px;
-    }
-    .k{
-      color: var(--muted);
-      font-weight:700;
-      font-size: 13px;
-    }
-    .v{
-      color: var(--text);
-      font-size: 14px;
-      line-height:1.5;
-    }
-    .footerHint{
-      color:var(--muted);
-      font-size: 12.8px;
-      margin-top:10px;
-      line-height:1.45;
-    }
-    .searchbox{
-      display:flex;
-      gap:10px;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .searchbox input{
-      flex:1;
-      min-width: 180px;
-      border-radius: 12px;
-      padding:10px 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(10,16,33,.6);
-      color:var(--text);
+      background: #0a1021;
+      color:#fff;
       outline:none;
+      resize: vertical;
     }
-    .list{
-      max-height: 330px;
-      overflow:auto;
-      border-top:1px solid var(--border);
-      margin-top:12px;
+    .row{ display:flex; gap:10px; margin-top:10px; flex-wrap: wrap; }
+    button{
+      border:0; border-radius: 10px; padding:10px 18px;
+      cursor:pointer; font-weight:700;
+      background: var(--accent); color:#000;
+      transition: opacity 0.2s;
     }
-    .list .line{
-      padding:10px 12px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
+    button:hover{ opacity: 0.9; }
+    button.secondary{ background: rgba(255,255,255,.1); color:#fff; }
+    .list{ max-height: 350px; overflow-y:auto; margin-top: 10px; border-top: 1px solid var(--border); }
+    .line{
+      padding:12px 10px; border-bottom: 1px solid var(--border);
+      display:flex; justify-content:space-between; align-items:center;
     }
-    .list .line strong{font-size:14px}
-    .list .line span{color:var(--muted); font-size:13px; line-height:1.4}
-    .smallBtn{
-      border-radius: 10px;
-      padding:7px 10px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      font-weight:800;
-      cursor:pointer;
-      white-space:nowrap;
+    .line strong{ font-size: 14px; }
+    .item{
+      border:1px solid var(--border); background: rgba(255,255,255,.03);
+      border-radius:12px; padding:15px; margin-bottom:10px;
     }
+    .tag{ font-size:11px; padding:3px 8px; border-radius:10px; margin-left: 8px; }
+    .tag.good{ background: var(--good); color:#000; }
+    .tag.bad{ background: var(--bad); color:#fff; }
+    .tag.warn{ background: var(--warn); color:#000; }
+    .kv{ display:grid; grid-template-columns: 100px 1fr; gap:8px; margin-top:10px; font-size:14px; }
+    .k{ color: var(--muted); font-weight:bold; }
+    .v{ line-height: 1.5; }
     .btn-gemini {
-      display: inline-block;
-      padding: 12px 24px;
+      display: inline-block; padding: 10px 20px;
       background: linear-gradient(45deg, #4285f4, #9b72cb);
-      color: white !important;
-      text-decoration: none !important;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.9em;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-gemini:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
-      filter: brightness(1.1);
+      color: white !important; text-decoration: none; border-radius: 25px;
+      font-weight: 600; font-size: 14px; margin-top: 15px;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Giải mã ngôn ngữ Gen Z — giúp phụ huynh hiểu con</h1>
-      <p>Ứng dụng giúp phụ huynh hiểu rõ hơn về các từ ngữ mới của giới trẻ thông qua bảng từ vựng và AI.</p>
+      <h1>Giải mã ngôn ngữ Gen Z</h1>
+      <p>Ứng dụng giúp phụ huynh hiểu con cái hơn.</p>
     </header>
 
     <div class="grid">
-      
       <section class="card">
-        <div class="hd">
-          <h2>1) Nhập câu có từ Gen Z</h2>
-        </div>
+        <div class="hd"><h2>1) Nhập tin nhắn cần giải mã</h2></div>
         <div class="bd">
           <textarea id="inputText" placeholder="Ví dụ: 'Hôm nay bà make-up nhìn slay thực sự!'"></textarea>
-
           <div class="row">
-            <button id="btnDecode" type="button">Giải mã</button>
-            <button class="secondary" id="btnExample" type="button">Ví dụ</button>
-            <button class="secondary" id="btnClear" type="button">Xoá</button>
+            <button id="btnDecode">Giải mã</button>
+            <button id="btnExample" class="secondary">Dùng ví dụ</button>
+            <button id="btnClear" class="secondary">Xóa trắng</button>
           </div>
-
-          <div style="margin-top: 30px; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; margin-bottom: 20px;">
-            <p style="font-size: 0.9em; color: var(--muted); margin-bottom: 12px; font-style: italic;">
-              Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
-            </p>
-            <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
-              Mở trực tiếp Google Gemini
-            </a>
-          </div>
-
-          <div class="pillbar" id="pillBar">
-            <div class="pill">Gợi ý: bạn có thể dán cả tin nhắn</div>
-            <div class="pill">Hỗ trợ tìm theo từ khoá trong bảng</div>
+          <div style="text-align:center; border-top: 1px solid var(--border); margin-top: 20px;">
+            <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">Hỏi thêm trên Google Gemini</a>
           </div>
         </div>
-      </section> <aside class="card">
-        <div class="hd">
-          <h2>2) Tra cứu nhanh từ</h2>
-        </div>
+      </section>
+
+      <aside class="card">
+        <div class="hd"><h2>2) Danh mục từ vựng</h2></div>
         <div class="bd">
-          <div class="meta">Tìm trong danh sách từ đang có. Bấm “Xem” để mở chi tiết.</div>
-          <div class="searchbox">
-            <input id="searchWord" placeholder="Nhập từ cần tìm..." />
-            <button class="secondary smallBtn" id="btnSearch" type="button">Tìm</button>
-          </div>
+          <input id="searchWord" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border); background:#0a1021; color:#fff;" placeholder="Tìm nhanh từ..." />
           <div class="list" id="wordList"></div>
         </div>
-</section> </div> <section class="card" style="margin-top: 20px;">
-    <div class="hd">
-      <h2>Kết quả giải mã</h2>
+      </aside>
     </div>
-    <div class="bd">
-      <div id="results" class="results"></div>
-      <div id="noResultHint" style="display:none; text-align: center; padding: 20px;">
-        Đang tìm kiếm...
+
+    <section class="card" style="margin-top:14px">
+      <div class="hd"><h2>Kết quả phân tích</h2></div>
+      <div id="results" class="bd">
+        <p style="color:var(--muted); text-align: center;">Vui lòng nhập văn bản hoặc chọn từ để xem kết quả.</p>
       </div>
-    </div>
-  </section>
-</div>
+    </section>
+  </div>
     <script>
-    // ====== DỮ LIỆU TỪ VỰNG (Nạp sẵn từ nội dung bạn đã gửi) ======
-    // Trường: STT, term, meaning, usageCase, tone, advice, note
-    // Bạn có thể yêu cầu mình mở rộng để nạp hết toàn bộ Sheet1.
-    
     const lexicon = [
       {
         stt: 1,
@@ -917,114 +737,67 @@
         note: "Từ Hán Việt"
       }
     ];
-<div style="margin-top: 30px; text-align: center; border-top: 1px solid #444; padding-top: 20px; margin-bottom: 20px;">
-      <p style="font-size: 0.9em; color: #bbb; margin-bottom: 12px; font-style: italic;">
-        Bạn muốn trò chuyện hoặc hỏi thêm các câu khác?
-      </p>
-      <a href="https://gemini.google.com/" target="_blank" class="btn-gemini">
-        Mở trực tiếp Google Gemini
-      </a>
-    </div>
-
-    <script>
-    // Ghi chú: Bạn phải đảm bảo ĐÃ CÓ đoạn 'const lexicon = [...]' ở ngay phía trên này trong file nhé.
-    // Nếu chưa có đoạn danh sách 63 từ đó, web sẽ không hiện gì cả.
-
-    function normalize(str){
-      return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+function normalize(str){
+      return (str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
     }
 
-    function toneClass(tone){
-      const t = normalize(tone);
-      if (t.includes("tich cuc")) return "good";
-      if (t.includes("tieu cuc")) return "bad";
-      return "warn"; 
-    }
-
-    // Sắp xếp từ dài nhất lên trước để so khớp chính xác
-    const sortedLex = [...lexicon].sort((a,b)=> normalize(b.term).length - normalize(a.term).length);
-
-    // 3. HÀM TẠO GIAO DIỆN KẾT QUẢ
     function renderItem(entry){
-      const tagClass = toneClass(entry.tone || "");
-      const wrapper = document.createElement("div");
-      wrapper.className = "item";
-      wrapper.innerHTML = `
-        <h3>${entry.term} <span class="tag ${tagClass}">${entry.tone || "Trung tính"}</span></h3>
-        <div class="kv">
-          <div class="k">Nghĩa</div><div class="v">${entry.meaning || "-"}</div>
-          <div class="k">Trường hợp</div><div class="v"><em>"${entry.usage || "-"}"</em></div>
-          <div class="k">Lời khuyên</div><div class="v">${entry.advice || "-"}</div>
-          <div class="k">Ghi chú</div><div class="v muted">${entry.note || "—"}</div>
+      if(!entry) return "";
+      const t = normalize(entry.tone || "");
+      let cls = "warn";
+      if(t.includes("tich cuc")) cls="good";
+      if(t.includes("tieu cuc")) cls="bad";
+
+      return `
+        <div class="item">
+          <h3>${entry.term} <span class="tag ${cls}">${entry.tone}</span></h3>
+          <div class="kv">
+            <div class="k">Ý nghĩa:</div><div class="v">${entry.meaning}</div>
+            <div class="k">Ví dụ:</div><div class="v"><em>"${entry.usage}"</em></div>
+            <div class="k">Lời khuyên:</div><div class="v">${entry.advice}</div>
+          </div>
+        </div>`;
+    }
+
+    function displayList(arr){
+      const list = document.getElementById("wordList");
+      if(!list) return;
+      list.innerHTML = arr.map(e => `
+        <div class="line">
+          <span><strong>${e.term}</strong></span>
+          <button style="padding:5px 10px; font-size:12px;" onclick="showOne(${e.stt})">Xem</button>
         </div>
-      `;
-      return wrapper;
+      `).join('');
     }
 
-    // 4. HÀM HIỂN THỊ DANH SÁCH BÊN PHẢI (ẢNH 2)
-    function renderWordList(items){
-      const wordList = document.getElementById("wordList");
-      if (!wordList) return;
-      wordList.innerHTML = "";
-      
-      if (items.length === 0){
-        wordList.innerHTML = `<div class="line"><span>Không tìm thấy.</span></div>`;
-        return;
-      }
-
-      items.forEach(e => {
-        const line = document.createElement("div");
-        line.className = "line";
-        line.innerHTML = `
-          <div><strong>${e.term}</strong><br><span style="font-size:12px;color:#888">${(e.meaning || "").slice(0,50)}...</span></div>
-          <button class="smallBtn" type="button">Xem</button>
-        `;
-        line.querySelector("button").onclick = () => {
-          const res = document.getElementById("results");
-          res.innerHTML = "";
-          res.appendChild(renderItem(e));
-          document.getElementById("noResultHint").style.display = "none";
-        };
-        wordList.appendChild(line);
-      });
-    }
-
-    // 5. CÁC SỰ KIỆN NÚT BẤM
-    document.getElementById("btnDecode").onclick = function() {
-      const text = normalize(document.getElementById("inputText").value);
-      const res = document.getElementById("results");
-      res.innerHTML = "";
-      let found = false;
-      
-      sortedLex.forEach(item => {
-        if (text.includes(normalize(item.term))) {
-          found = true;
-          res.appendChild(renderItem(item));
-        }
-      });
-      document.getElementById("noResultHint").style.display = found ? "none" : "block";
+    window.showOne = (stt) => {
+      const item = lexicon.find(x => x.stt === stt);
+      if(item) document.getElementById("results").innerHTML = renderItem(item);
     };
 
-    document.getElementById("btnSearch").onclick = function() {
-      const q = normalize(document.getElementById("searchWord").value);
-      const filtered = lexicon.filter(e => normalize(e.term).includes(q) || normalize(e.meaning).includes(q));
-      renderWordList(filtered);
+    document.getElementById("btnDecode").onclick = () => {
+      const val = normalize(document.getElementById("inputText").value);
+      const matched = lexicon.filter(x => val.includes(normalize(x.term)));
+      const res = document.getElementById("results");
+      res.innerHTML = matched.length ? matched.map(renderItem).join('') : "<p>Không tìm thấy từ Gen Z nào.</p>";
+    };
+
+    document.getElementById("searchWord").oninput = (e) => {
+      const q = normalize(e.target.value);
+      displayList(lexicon.filter(x => normalize(x.term).includes(q)));
+    };
+
+    document.getElementById("btnExample").onclick = () => {
+      document.getElementById("inputText").value = "Hôm nay bà make-up nhìn slay thực sự!";
+      document.getElementById("btnDecode").click();
     };
 
     document.getElementById("btnClear").onclick = () => {
       document.getElementById("inputText").value = "";
       document.getElementById("results").innerHTML = "";
     };
-    
-    document.getElementById("btnExample").onclick = () => {
-      document.getElementById("inputText").value = "Hôm nay bà make-up nhìn slay thực sự!";
-      document.getElementById("btnDecode").click();
-    };
 
-    // QUAN TRỌNG: LỖI NẰM Ở ĐÂY - MÌNH ĐÃ SỬA DẤU ) THIẾU
-    window.onload = () => {
-      renderWordList(lexicon.slice(0, 65)); // Thêm dấu ngoặc ) vào đây
-    };
-    </script>
+    window.onload = () => displayList(lexicon);
+  </script>
 </body>
 </html>
